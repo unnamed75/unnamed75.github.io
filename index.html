@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="ru">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title></title>
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+		<style>
+
+		body {
+			padding-top: 50px;
+			padding-bottom: 50px;
+		}
+
+		#app {
+			max-width: 80%;
+			margin-right: auto;
+			margin-left: auto;
+		}
+
+		.scanner {}
+
+		.scanner__scandit {
+			padding-bottom: 20px;
+		}
+
+		.scanner__footer {}
+
+		.scanner__control {}
+
+		.scanner__button {}
+
+		</style>
+	</head>
+	<body>
+		<div id="app">
+			<div class="scanner">
+				<div class="scanner__scandit"></div>
+				<div class="scanner__footer">
+					<div class="scanner__control">
+						<div class="input-field">
+							<label>Штрихкод</label>
+							<input type="text" placeholder="Введите штрихкод">
+						</div>
+					</div>
+					<div class="scanner__button">
+						<button type="button" class="waves-effect waves-light btn-small">Отправить</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+		<script src="https://cdn.jsdelivr.net/npm/scandit-sdk@5.x"></script>
+		<script>
+			ScanditSDK
+				.configure('AbST3hAoNMdSIJKZhj4Nlucp58OiO9KdtFRdqR5O6h6QFy95WW9hbaVWHwVTQ8FWdmmuPPByC6KLbVpOfwZB97RWdYyLSzG6FkUAEDpSp664TFOllkCLhsFkWNkEJzg4/hkeLGNqky2peR3aTB98WdpCmiGUGLW0Ogl6ud2gYUGRSu2IvLn1ejz1bguJuYvkdaEq+haCNlyCoeZbGz6xhqcqr7JS2+HUYd8Jm0FomW2k/K/9UDQubwsZUbD7dhMbnfo+oD5Mk7ARWwrfyQJoJW7AgQpb9s7gUDDp0vCfruS8rAAGe/Cy2fNZs48ePgtAqjDcQaTb9I4StpQfSSViSH2RPc23k3TcF/2vMrCOeihSly2LHQ7ZVa06l2Ev3BDWeLdQkYOpsKe8/vW/hXMQTyLuVQDLfkX16otnWCI2UtQMxlItOV/KxoZponDFzyLcHThNRWb7UyP59tChGI8fYB4gyV4b9lxxCLHSqPB22Vj5YyZA51H92cqx+gwSenU1k40/Z+O6Lnz3DgtgiVvzlJoVgBRCOy9q3plAQSuc2cQ7HOlWA6ReVF8eBy7yl20c0Yl/4Oq+FGGt8twRNYOy+/MhGHPZ4yHBFNS/k5sOHKkzIMidpfiCOr6roE9yxTHNOAlifkt/Y51QGPMxJ0KDrJu2/gDicntuHpc9luMPiaSqZtH5OZkHj6q14Z9dsMaDDamRoBpqxGUP3+/XyyHOljLHuMhUm9X6xHAmtd399RQ2Rs7NpJvDoMfvGN/jkclWppafWsfGZNVdlSqhL6GpqPQNYxzC+mwQoNqR1jjAx7UBYd1lqoCdzEYU+sGyd0BVvIqoMyYcHIEk7VC0', {
+					engineLocation: 'https://cdn.jsdelivr.net/npm/scandit-sdk@5.x/build/',
+				})
+				.then(() => ScanditSDK.BarcodePicker.create(document.querySelector('.scanner__scandit'), {
+					playSoundOnScan: true,
+					vibrateOnScan: true,
+					scanSettings: new ScanditSDK.ScanSettings({
+						enabledSymbologies: [
+							'ean8',
+							'ean13',
+							'upca',
+							'upce',
+						],
+					}),
+				}))
+				.then((barcodePicker) => barcodePicker.on('scan', (scanResult) => document.querySelector('input').value = scanResult.barcodes[0].data));
+			</script>
+	</body>
+</html>
